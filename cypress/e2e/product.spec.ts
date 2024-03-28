@@ -10,8 +10,8 @@ describe('product API Tests', () => {
         }).then((response) => {
             expect(response.status).to.equal(201);
             expect(response.body.length > 0);
+            expect(response.body.title = 'BMW Pencil');
             productId = response.body.id;
-            response.body.title = 'BMW Pencil'
         });
     });
 
@@ -33,7 +33,7 @@ describe('product API Tests', () => {
         }).then((response) => {
             expect(response.status).to.equal(200);
             expect(response.body.length > 0);
-            expect(response.body.title = 'Volvo Pencil')
+            expect(response.body.title = 'Volvo Pencil');
         });
     });
 
@@ -57,21 +57,26 @@ describe('product API Tests', () => {
         cy.request(`/search?q=phone`).then((response) => {
             expect(response.status).to.equal(200);
             expect(response.body.length > 0);
-            expect( response.body.name.to.contain("iphone"))
+            expect( response.body.name.to.contain("iphone"));
         });
     });
 
     it('should be able to retrieve a product category', () => {
-        cy.request(`/`).then((response) => {
+        cy.request(`/category/smartphones`).then((response) => {
             expect(response.status).to.equal(200);
             expect(response.body.length > 0);
+            expect(response.body.category.to.contain("smartphones"));
         });
     });
 
-    it('should be able to retrieve allproducts', () => {
+    it('should be able to limit and skip products', () => {
         cy.request(`/?limit=10&skip=10&select=title,price`).then((response) => {
             expect(response.status).to.equal(200);
             expect(response.body.length > 0);
+            expect(response.body.skip.to.equal(10));
+            expect(response.body.limit.to.equal(10));
+            expect(response.body.title.length > 0);
+            expect(response.body.price.length > 0);
         });
     });
 
